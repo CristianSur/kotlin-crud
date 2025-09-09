@@ -49,7 +49,7 @@ fun Route.productRoutes() {
         put("/{id}") {
             val id = call.parameters["id"]?.toIntOrNull() ?: return@put call.respondText(
                 "Invalid ID",
-                status = io.ktor.http.HttpStatusCode.BadRequest
+                status = HttpStatusCode.BadRequest
             )
 
             val updated = call.receive<ProductDTO>()
@@ -71,7 +71,7 @@ fun Route.productRoutes() {
         delete("/{id}") {
             val id = call.parameters["id"]?.toIntOrNull() ?: return@delete call.respondText(
                 "Invalid ID",
-                status = io.ktor.http.HttpStatusCode.BadRequest
+                status = HttpStatusCode.BadRequest
             )
 
             val deleted = transaction {
