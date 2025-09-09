@@ -1,5 +1,6 @@
 package com.example
 
+import io.ktor.http.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -20,23 +21,18 @@ fun Route.productRoutes() {
         }
 
         get("/{id}") {
-            val id = call.parameters["id"]?.toIntOrNull()
-            if (id == null) {
-                call.respondText("Invalid ID", status = io.ktor.http.HttpStatusCode.BadRequest)
-                return@get
-            }
+            val id = call.parameters["id"]?.toIntOrNull() ?: return@get call.respondText(
+                "Invalid ID",
+                status = io.ktor.http.HttpStatusCode.BadRequest
+            )
 
             val product = transaction {
-                Products.select(Products.id eq id)
-                    .mapNotNull { it.toProductDTO() }
-                    .singleOrNull()
+                Products.select(Products.id eq id).mapNotNull { it.toProductDTO() }.singleOrNull()
             }
 
-            if (product == null) {
-                call.respondText("Not found", status = io.ktor.http.HttpStatusCode.NotFound)
-            } else {
-                call.respond(product)
-            }
+            product?.let {
+                call.respond(it)
+            } ?: call.respondText("Not found", status = HttpStatusCode.NotFound)
         }
 
         post {
@@ -55,25 +51,38 @@ fun Route.productRoutes() {
                 "Invalid ID",
                 status = io.ktor.http.HttpStatusCode.BadRequest
             )
+
             val updated = call.receive<ProductDTO>()
 
-            transaction {
+            val rowsAffected = transaction {
                 Products.update({ Products.id eq id }) {
                     it[name] = updated.name
                     it[price] = updated.price.toBigDecimal()
                 }
             }
-            call.respondText("Updated")
+
+            if (rowsAffected > 0) {
+                call.respondText("Updated $rowsAffected rows", status = HttpStatusCode.OK)
+            } else {
+                call.respondText("Updated $rowsAffected rows", status = HttpStatusCode.NotFound)
+            }
         }
 
         delete("/{id}") {
-            val id = call.parameters["id"]?.toIntOrNull()
-                ?: return@delete call.respondText("Invalid ID", status = io.ktor.http.HttpStatusCode.BadRequest)
+            val id = call.parameters["id"]?.toIntOrNull() ?: return@delete call.respondText(
+                "Invalid ID",
+                status = io.ktor.http.HttpStatusCode.BadRequest
+            )
 
-            transaction {
+            val deleted = transaction {
                 Products.deleteWhere { Products.id eq id }
             }
-            call.respondText("Deleted")
+
+            if (deleted > 0) {
+                call.respondText("Deleted $deleted rows", status = HttpStatusCode.OK)
+            } else {
+                call.respondText("Deleted $deleted rows", status = HttpStatusCode.NotFound)
+            }
         }
     }
 }
