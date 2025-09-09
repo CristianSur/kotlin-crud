@@ -1,6 +1,7 @@
-package com.example
+package com.example.database
 
-import io.ktor.server.application.*
+import com.example.model.Products
+import io.ktor.server.application.ApplicationEnvironment
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -21,7 +22,7 @@ object DatabaseFactory {
         val password = config.property("password").getString()
         val databaseName = config.property("name").getString()
 
-        Database.connect(
+        Database.Companion.connect(
             url = "$url/$databaseName",
             driver = driver,
             user = user,

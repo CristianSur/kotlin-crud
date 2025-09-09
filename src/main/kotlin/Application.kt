@@ -1,5 +1,7 @@
 package com.example
 
+import com.example.database.DatabaseFactory
+import com.example.routes.productRoutes
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.netty.*

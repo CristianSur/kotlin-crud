@@ -1,5 +1,6 @@
-package com.example
+package com.example.routes
 
+import com.example.model.*
 import io.ktor.http.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -23,7 +24,7 @@ fun Route.productRoutes() {
         get("/{id}") {
             val id = call.parameters["id"]?.toIntOrNull() ?: return@get call.respondText(
                 "Invalid ID",
-                status = io.ktor.http.HttpStatusCode.BadRequest
+                status = HttpStatusCode.BadRequest
             )
 
             val product = transaction {
