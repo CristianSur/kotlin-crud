@@ -34,6 +34,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:0.61.0")
 
     implementation("com.h2database:h2:2.3.232")
+    implementation("org.postgresql:postgresql:42.7.7")
 
     implementation("io.ktor:ktor-serialization-kotlinx-json")
     implementation("io.ktor:ktor-server-content-negotiation")

@@ -1,4 +1,4 @@
-rootProject.name = "kotlin-crud"
+rootProject.name = "ktor-crud"
 
 dependencyResolutionManagement {
     repositories {

@@ -1,11 +1,16 @@
-###
-GET http://localhost:8080/products
+@HOST = http://localhost:8080
 
-###
-POST http://localhost:8080/products
+### Get products
+GET {{HOST}}/products
+
+### Create new product
+POST {{HOST}}/products
 Content-Type: application/json
 
 {
   "name": "New Product",
   "price": 19.99
 }
+
+### Delete product by id
+DELETE {{HOST}}/products/3

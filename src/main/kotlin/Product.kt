@@ -10,7 +10,11 @@ object Products : IntIdTable() {
 }
 
 @Serializable
-data class ProductDTO(val id: Int? = null, val name: String, val price: Double)
+data class ProductDTO(
+    val id: Int? = null,
+    val name: String,
+    val price: Double
+)
 
 fun ResultRow.toProductDTO() = ProductDTO(
     id = this[Products.id].value,
