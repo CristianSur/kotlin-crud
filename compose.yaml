@@ -6,10 +6,12 @@ services:
     ports:
       - "8080:8080"
     environment:
+      # In docker network service names become hostnames, so we should use 'db' as the host
       DATABASE_HOST: db
       DATABASE_USERNAME: ${DATABASE_USERNAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       DATABASE_NAME: ${DATABASE_NAME}
+    # Make sure the app waits for the database to be ready, although the app will fail on connection
     depends_on:
       db:
         condition: service_healthy

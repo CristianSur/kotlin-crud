@@ -12,5 +12,17 @@ Content-Type: application/json
   "price": 19.99
 }
 
+### Update product by id
+PUT {{HOST}}/products/1
+Content-Type: application/json
+
+{
+  "name": "Updated Product",
+  "price": 29.99
+}
+
+### Get product by id
+GET {{HOST}}/products/1
+
 ### Delete product by id
-DELETE {{HOST}}/products/3
+DELETE {{HOST}}/products/1
