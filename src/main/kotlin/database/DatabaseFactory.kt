@@ -22,13 +22,17 @@ object DatabaseFactory {
     fun init(environment: ApplicationEnvironment) {
         val config = environment.config.config("database")
         val driver = config.property("driver").getString()
-        val url = config.property("url").getString()
-        val user = config.property("user").getString()
+        
+        // Read database host from environment variable, default to localhost
+        val host = config.property("name").getString()
+        val user =  config.property("user").getString()
         val password = config.property("password").getString()
-        val databaseName = config.property("name").getString()
+        val databaseName =  config.property("name").getString()
+        
+        val url = "jdbc:postgresql://$host:5432/$databaseName"
 
         Database.connect(
-            url = "$url/$databaseName",
+            url = url,
             driver = driver,
             user = user,
             password = password
