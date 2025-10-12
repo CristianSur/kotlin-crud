@@ -17,6 +17,10 @@ application {
     mainClass = "io.ktor.server.netty.EngineMain"
 }
 
+kotlin {
+    jvmToolchain(21)
+}
+
 dependencies {
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-server-netty")
@@ -30,8 +34,8 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json")
     implementation("io.ktor:ktor-server-content-negotiation")
 
-    implementation("org.jetbrains.exposed:exposed-core:0.61.0")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.61.0")
+    implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
 
     implementation("com.h2database:h2:2.3.232")
     implementation("org.postgresql:postgresql:42.7.7")

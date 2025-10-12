@@ -1,5 +1,5 @@
 # ---- Stage 1: Build ----
-FROM gradle:8-jdk17
+FROM gradle:8-jdk21
 
 # Set working directory
 WORKDIR /app
@@ -11,7 +11,7 @@ COPY --chown=gradle:gradle . .
 RUN gradle clean build -x test
 
 # ---- Stage 2: Run ----
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
